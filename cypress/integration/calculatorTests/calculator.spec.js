@@ -1,13 +1,3 @@
-/*
-
-5.   What does the code do in exceptional circumstances? 
-Specifically, if you divide by zero, what is the effect? 
-Write a test to describe what you'd prefer to happen, 
-and then correct the code to make that test pass 
-(you will need to modify the Calculator model to 
-  meet this requirement).
-*/
-
 describe("Calculator", () => {
   beforeEach(() => {
     cy.visit("http://localhost:3000");
@@ -92,5 +82,13 @@ describe("Calculator", () => {
     getByDataTestId("number9").click();
     getByDataTestId("operator-equals").click();
     cy.get(".display").should("contain", "99999980000001");
+  });
+
+  it("should give a specific error when dividing by zero", () => {
+    getByDataTestId("number9").click();
+    getByDataTestId("operator-divide").click();
+    getByDataTestId("number0").click();
+    getByDataTestId("operator-equals").click();
+    cy.get(".display").should("contain", "divide by 0 not permit");
   });
 });
