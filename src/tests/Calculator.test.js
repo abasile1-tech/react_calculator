@@ -50,4 +50,32 @@ describe("Calculator", () => {
     fireEvent.click(button4);
     expect(runningTotal.textContent).toEqual("3");
   });
+
+  it("should multiply 3 by 5 and get 15", () => {
+    const runningTotal = container.getByTestId("running-total");
+    const button1 = container.getByTestId("number3");
+    fireEvent.click(button1);
+    const button2 = container.getByTestId("operator-multiply");
+    fireEvent.click(button2);
+    const button3 = container.getByTestId("number5");
+    fireEvent.click(button3);
+    const button4 = container.getByTestId("operator-equals");
+    fireEvent.click(button4);
+    expect(runningTotal.textContent).toEqual("15");
+  });
+
+  it("should divide 21 by 7 and get 3", () => {
+    const runningTotal = container.getByTestId("running-total");
+    const button1 = container.getByTestId("number2");
+    fireEvent.click(button1);
+    const button2 = container.getByTestId("number1");
+    fireEvent.click(button2);
+    const button3 = container.getByTestId("operator-divide");
+    fireEvent.click(button3);
+    const button4 = container.getByTestId("number7");
+    fireEvent.click(button4);
+    const button5 = container.getByTestId("operator-equals");
+    fireEvent.click(button5);
+    expect(runningTotal.textContent).toEqual("3");
+  });
 });
