@@ -1,17 +1,4 @@
 /*
-You should write tests to ensure the following 
-requirements are met:
-
-1. Do the number buttons update the display of the running total?
-
-2. Do the arithmetical operations update the display with the 
-result of the operation?
-
-3. Can multiple operations be chained together?
-
-4. Is the output as expected for a range of numbers 
-(for example, positive, negative, decimals and 
-  very large numbers)?
 
 5.   What does the code do in exceptional circumstances? 
 Specifically, if you divide by zero, what is the effect? 
@@ -26,8 +13,84 @@ describe("Calculator", () => {
     cy.visit("http://localhost:3000");
   });
 
+  function getByDataTestId(name) {
+    return cy.get(`[data-testid="${name}"]`);
+  }
+
   it("should have working number buttons", () => {
-    cy.get("#number2").click();
+    getByDataTestId("number2").click();
     cy.get(".display").should("contain", "2");
+  });
+
+  it("should update the display of the running total when number buttons are pushed", () => {
+    getByDataTestId("number2").click();
+    getByDataTestId("number3").click();
+    cy.get(".display").should("contain", "23");
+  });
+
+  it("should update the display with the result of the operation", () => {
+    getByDataTestId("number2").click();
+    getByDataTestId("operator-add").click();
+    getByDataTestId("number3").click();
+    getByDataTestId("operator-equals").click();
+    cy.get(".display").should("contain", "5");
+  });
+
+  it("should be able to chain multiple operations together", () => {
+    getByDataTestId("number2").click();
+    getByDataTestId("operator-add").click();
+    getByDataTestId("number3").click();
+    getByDataTestId("operator-subtract").click();
+    getByDataTestId("number1").click();
+    getByDataTestId("operator-equals").click();
+    cy.get(".display").should("contain", "4");
+  });
+
+  it("should be able to output positive numbers", () => {
+    getByDataTestId("number2").click();
+    getByDataTestId("operator-add").click();
+    getByDataTestId("number5").click();
+    getByDataTestId("operator-subtract").click();
+    getByDataTestId("number1").click();
+    getByDataTestId("operator-equals").click();
+    cy.get(".display").should("contain", "6");
+  });
+
+  it("should be able to output negative numbers", () => {
+    getByDataTestId("number4").click();
+    getByDataTestId("operator-add").click();
+    getByDataTestId("number1").click();
+    getByDataTestId("operator-subtract").click();
+    getByDataTestId("number7").click();
+    getByDataTestId("operator-equals").click();
+    cy.get(".display").should("contain", "-2");
+  });
+
+  it("should be able to output decimals", () => {
+    getByDataTestId("number2").click();
+    getByDataTestId("operator-divide").click();
+    getByDataTestId("number3").click();
+    getByDataTestId("operator-equals").click();
+    cy.get(".display").should("contain", "0.6666666666666666");
+  });
+
+  it("should be able to output very large numbers", () => {
+    getByDataTestId("number9").click();
+    getByDataTestId("number9").click();
+    getByDataTestId("number9").click();
+    getByDataTestId("number9").click();
+    getByDataTestId("number9").click();
+    getByDataTestId("number9").click();
+    getByDataTestId("number9").click();
+    getByDataTestId("operator-multiply").click();
+    getByDataTestId("number9").click();
+    getByDataTestId("number9").click();
+    getByDataTestId("number9").click();
+    getByDataTestId("number9").click();
+    getByDataTestId("number9").click();
+    getByDataTestId("number9").click();
+    getByDataTestId("number9").click();
+    getByDataTestId("operator-equals").click();
+    cy.get(".display").should("contain", "99999980000001");
   });
 });
